@@ -16,11 +16,15 @@ public class User
 
 	private String pwd;
 
+	private String description;
+
 	@JsonCreator
-	public User(@JsonProperty(value = "name", required = true) String name, @JsonProperty(value = "pwd", required = true) String pwd)
+	public User(@JsonProperty(value = "name", required = true) String name, @JsonProperty(value = "pwd", required = true) String pwd,
+			@JsonProperty(value = "description", required = false) String description)
 	{
 		this.name = name;
 		this.pwd = pwd;
+		this.description = description == null ? "No description" : description;
 	}
 
 	public String getName()
@@ -39,9 +43,18 @@ public class User
 		return pwd;
 	}
 
-	@JsonIgnore
 	public void setPwd(String pwd)
 	{
 		this.pwd = pwd;
+	}
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
 	}
 }

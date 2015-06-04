@@ -44,6 +44,7 @@ public class HomeController
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate);
+		model.addAttribute("users", users);
 
 		return "home";
 	}
@@ -74,12 +75,26 @@ public class HomeController
 
 	@RequestMapping(value = "/users/{name}", produces = "application/json", method = { RequestMethod.GET })
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody User addUser(@PathVariable("name") String name)
+	public @ResponseBody User getUser(@PathVariable("name") String name)
 	{
 		if (users.get(name) != null)
 		{
 			return users.get(name);
 		}
 		return null;
+	}
+
+	@RequestMapping(value = "/users/{name}", produces = "application/json", method = { RequestMethod.POST })
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody OperationStatus changeUser(@PathVariable("name") String name, @RequestBody User user)
+	{
+		User existUser = users.get(name);
+		if (existUser != null)
+		{
+			existUser.setDescription(user.getDescription());
+			existUser.setPwd(user.getPwd());
+			return new OperationStatus("User has been changed");
+		}
+		return new OperationStatus("Such user " + name + " does not exist");
 	}
 }
