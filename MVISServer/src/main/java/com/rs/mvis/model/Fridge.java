@@ -1,5 +1,6 @@
 package com.rs.mvis.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Fridge
@@ -35,5 +36,51 @@ public class Fridge
 	public Integer getID()
 	{
 		return ID;
+	}
+
+	public List<Product> getProductsByName(String name)
+	{
+		List<Product> productsList = new ArrayList<Product>();
+		for (StoragePlace storagePlace : storages)
+		{
+			for (Product product : storagePlace.getProducts())
+			{
+				if (product.getName().toLowerCase().equals(name.toLowerCase()))
+				{
+					productsList.add(product);
+				}
+			}
+		}
+		return productsList;
+	}
+
+	public Product getProductByID(String id)
+	{
+		for (StoragePlace storagePlace : storages)
+		{
+			for (Product product : storagePlace.getProducts())
+			{
+				if (product.getID().equals(id))
+				{
+					return product;
+				}
+			}
+		}
+		return null;
+	}
+
+	public List<Product> getAllProducts()
+	{
+		List<Product> productsList = new ArrayList<Product>();
+		for (StoragePlace storagePlace : storages)
+			for (Product product : storagePlace.getProducts())
+				productsList.add(product);
+
+		return productsList;
+	}
+
+	public String getDescription()
+	{
+		return description;
 	}
 }

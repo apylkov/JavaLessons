@@ -1,11 +1,12 @@
 package com.rs.mvis.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoragePlace
 {
 	private StorageType type;
-	private List<Product> products;
+	private List<Product> products = new ArrayList<Product>();
 
 	public StoragePlace(StorageType type)
 	{

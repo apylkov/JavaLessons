@@ -1,6 +1,6 @@
 package com.rs.mvis.model;
 
-public class MeasureUnit
+public enum MeasureUnit
 {
-
+	kg, l, unit
 }

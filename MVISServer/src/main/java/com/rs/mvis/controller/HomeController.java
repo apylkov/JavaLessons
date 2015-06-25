@@ -1,8 +1,9 @@
-package com.rs.mvis;
+package com.rs.mvis.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -19,6 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.rs.mvis.OperationStatus;
+import com.rs.mvis.User;
+import com.rs.mvis.manager.FridgeManager;
+import com.rs.mvis.model.Product;
+
 /**
  * Handles requests for the application home page.
  */
@@ -29,6 +35,8 @@ public class HomeController
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	private Map<String, User> users = new HashMap<String, User>();
+
+	private FridgeManager manager = new FridgeManager();
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -96,5 +104,20 @@ public class HomeController
 			return new OperationStatus("User has been changed");
 		}
 		return new OperationStatus("Such user " + name + " does not exist");
+	}
+
+	@RequestMapping(value = "/{fridgeId}/products", produces = "application/json", method = { RequestMethod.POST })
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody OperationStatus addProduct(@PathVariable("fridgeId") String id, @RequestBody Product product)
+	{
+		manager.addProductToFridge(Integer.parseInt(id), product);
+		return new OperationStatus("Success");
+	}
+
+	@RequestMapping(value = "products", produces = "application/json", method = { RequestMethod.GET })
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody List<Product> getProducts()
+	{
+		return manager.getAllProducts();
 	}
 }

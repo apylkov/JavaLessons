@@ -1,5 +1,6 @@
 package com.rs.mvis.model;
 
-public class StorageType
+public enum StorageType
 {
+	FROST, DOOR, FRIDGE
 }

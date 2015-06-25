@@ -1,9 +1,13 @@
 package com.rs.mvis.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rs.mvis.utils.IDGenerator;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
 public class Product
 {
@@ -17,7 +21,11 @@ public class Product
 	private StorageType storageType;
 	private Integer calories;
 
-	public Product(String name, Long dateExpired, Long productionDate, String description, Float quantity, MeasureUnit measureUnit, StorageType storageType, Integer calories)
+	@JsonCreator
+	public Product(@JsonProperty(value = "name", required = true) String name, @JsonProperty(value = "dateExpired", required = false) Long dateExpired,
+			@JsonProperty(value = "productionDate", required = false) Long productionDate, @JsonProperty(value = "description", required = false) String description,
+			@JsonProperty(value = "quantity", required = false) Float quantity, @JsonProperty(value = "measureUnit", required = false) MeasureUnit measureUnit,
+			@JsonProperty(value = "storageType", required = false) StorageType storageType, @JsonProperty(value = "calories", required = false) Integer calories)
 	{
 		this.name = name;
 		this.dateExpired = dateExpired;
@@ -27,7 +35,7 @@ public class Product
 		this.measureUnit = measureUnit;
 		this.storageType = storageType;
 		this.calories = calories == null ? -1 : calories;
-		this.ID = IDGenerator.generateID(16);
+		this.ID = IDGenerator.generateID();
 	}
 
 	public String getID()
@@ -73,5 +81,15 @@ public class Product
 	public Integer getCalories()
 	{
 		return calories;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
 	}
 }
